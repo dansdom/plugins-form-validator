@@ -1,4 +1,10 @@
-// jQuery Form Validation Plugin  - v 1.2
+/*
+	jQuery Form Validator Plugin v1.3
+	Copyright (c) 2011 Daniel Thomson
+	
+	Licensed under the MIT license:
+	http://www.opensource.org/licenses/mit-license.php
+*/
 
 // version 1.1 - added full date functionality
 //             - added custom 'valid' message
