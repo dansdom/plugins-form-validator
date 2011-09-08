@@ -1,59 +1,62 @@
-
- version 1.1 - added full date functionality
-             - added custom 'valid' message
- version 1.2 - changed fieldType declaration to the name attribute rather than the class name
-             - made custom error messages optional rather than necessary, now if there is no custom message then it will display the validation type error
-             - added reset event that replaces .error with &#42; and resets class behaviour
-
- To Do list for 1.3?
-
- Notes:
- checkboxes and radio button groups will share the same name attribute to identify the group
-
-        Avaliable Rules:
-        min             - value: numeric;  minimum length of input
-        max             - value: numeric;  maximum langth of input
-        checkboxMin     - value: numeric;  minimum number of checkboxes that can be selected
-        checkboxMax     - value: numeric;  maximum number of checkboxes that can be selected - "true" = all
-        fileType        - value: string;   file types allowed for file inputs, this is a list of extensions seperated by a comma
-        isNumber        - value: boolean;  only numbers allowed as an input value
-        lettersOnly     - value: boolean;  only letters allowed as an input value
-        passConfirm     - value: boolean;  the field that it is checking the value against
-        validURL        - value: boolean;  validates a url input - set to "true". default is false
-        validEmail      - value: boolean;  checks that the value is a valid emial address
-        date            - value: boolean;  checks that the value is in a valid date format, supporting some of datepickers format types.
-        dateFuture      - value: boolean;  checks that the value is a date in the future
-        datePast        - value: boolean;  checks that the date is in the past
-        checkHtmlTags   - value: string;   list of tags seperated by commas. eg. "<div>,<p>,<span>" - if empty, checks for all tags. Checks for HTML tags in the input data
-        selectNull      - value: string;   default value of the select box - used to check against. Data object only, will return error if this is the value
-        selectHasValue  - value: boolean;  checks whether the default value of the select box is not selected - will test against a true value
-        radioReq        - value: boolean;  true: a radio btn has to be selected. This will only validate on form submit
-        noSpaces        - value: boolean;  true: no spaces are allowed in the input
-
-        Date format type allowed:
-        numeric values: D,M,Y
-        seperators: , / - &nbps;
-        Month values: short and long, word or number
-        Day values: short and long
-        Valid year range: 1000 - 3000
-
-
- Notes on Functionality
- 1. Associated error message will carry the same title and have the errorClass name
- 2. plugin will only validate the fields that have the requiredClass name
-
- Default input types are just a guide. It is recommended that the user define his own custom field. Do this thus:
- 1. define the input type name eg. myField
- 2. define the name of the input in the HTML eg. inputName: 'myFieldName'
- 3. define the rules to apply to that field eg. rules:{min:2,max:10,validURL:true}
- 4. define a custom error message (optional) eg. message: 'This field has particular needs'
- 5. putting it together on a <form id="pageForm"> :
-
-  $(document).ready(function(){
-      $("#pageForm").validator({
-             inputTypes:{
-                   myField: {
-                             inputName: 'myFieldName',
-                             rules: {min:2,max:10,validURL:true},
-                             message: 'This field has particular needs'}}
-                            });
+  version 1.1	- added full date functionality
+ 				- added custom 'valid' message
+  version 1.2	- changed fieldType declaration to the name attribute rather than the class name
+ 				- made custom error messages optional rather than necessary, now if there is no custom message then it will display the validation type error
+ 				- added reset event that replaces .error with &#42; and resets class behaviour
+  version 1.3	- added maxValue and minValue rules for testing integer sizes
+ 				- added custom rule function that will let the developer add their own validation routines. more than one should be allowed
+ 				- added isUsername to check for valid twitter username for my project
+  version 1.4	- added support for custom validation functions
+ 				- added option to validate on key change or only on field blur
+ 				- added field valid message class
+ 				- added optional field class that will validate
+ 
+  Notes:
+  checkboxes and radio button groups will share the same name attribute to identify the group
+ 		  Avaliable Rules:
+ 		  min			  	- value: numeric;	 minimum length of input
+ 		  max			  	- value: numeric;	 maximum langth of input
+ 		  minValue		  	- value: numeric;	 minimum numeric value of a field
+ 		  maxValue		  	- value: numeric;	 maximum numeric value of a field		
+ 		  checkboxMin		- value: numeric;	 minimum number of checkboxes that can be selected
+ 		  checkboxMax		- value: numeric;	 maximum number of checkboxes that can be selected - "true" = all
+ 		  fileType		  	- value: string;	 file types allowed for file inputs, this is a list of extensions seperated by a comma
+ 		  isNumber		  	- value: boolean;	 only numbers allowed as an input value
+ 		  lettersOnly		- value: boolean;	 only letters allowed as an input value
+ 		  passConfirm		- value: boolean;	 the field that it is checking the value against
+ 		  validURL		  	- value: boolean;	 validates a url input - set to "true". default is false
+ 		  validEmail	  	- value: boolean;	 checks that the value is a valid emial address
+ 		  date			  	- value: boolean;	 checks that the value is in a valid date format, supporting some of datepickers format types.
+ 		  dateFuture	  	- value: boolean;	 checks that the value is a date in the future
+ 		  datePast		  	- value: boolean;	 checks that the date is in the past
+ 		  checkHtmlTags	  	- value: string;	 list of tags seperated by commas. eg. "<div>,<p>,<span>" - if empty, checks for all tags. Checks for HTML tags in the input data
+ 		  selectNull	  	- value: string;	 default value of the select box - used to check against. Data object only, will return error if this is the value
+ 		  selectHasValue  	- value: boolean;	 checks whether the default value of the select box is not selected - will test against a true value
+ 		  radioReq		  	- value: boolean;	 true: a radio btn has to be selected. This will only validate on form submit
+ 		  noSpaces		  	- value: boolean;	 true: no spaces are allowed in the input
+ 		  custom			- value: boolean;  true: checks the custom validation function
+ 		  onChangeValidation - value: boolean; true: option to validate on input change, if false then validation occurs on the blur event
+ 		  Date format type allowed:
+ 		  numeric values: D,M,Y
+ 		  seperators: , / - &nbps;
+ 		  Month values: short and long, word or number
+ 		  Day values: short and long
+ 		  Valid year range: 1000 - 3000
+  Notes on Functionality
+  1. Associated error message will carry the same title and have the errorClass name
+  2. plugin will only validate the fields that have the requiredClass name
+  Default input types are just a guide. It is recommended that the user define his own custom field. Do this thus:
+  1. define the input type name eg. myField
+  2. define the name of the input in the HTML eg. inputName: 'myFieldName'
+  3. define the rules to apply to that field eg. rules:{min:2,max:10,validURL:true}
+  4. define a custom error message (optional) eg. message: 'This field has particular needs'
+  5. putting it together on a <form id="pageForm"> :
+ 
+ 	$(document).ready(function(){
+ 		$("#pageForm").validator({
+ 				inputTypes:{
+ 					 myField: {
+ 								inputName: 'myFieldName',
+ 								rules: {min:2,max:10,validURL:true},
+ 								message: 'This field has particular needs'}}
+ 							  });
