@@ -1,5 +1,5 @@
 /*
-	jQuery Form Validator Plugin v1.3
+	jQuery Form Validator Plugin v1.4
 	Copyright (c) 2011 Daniel Thomson
 	
 	Licensed under the MIT license:
@@ -21,28 +21,28 @@
 // Notes:
 // checkboxes and radio button groups will share the same name attribute to identify the group
 //		  Avaliable Rules:
-//		  min			  	- value: numeric;	 minimum length of input
-//		  max			  	- value: numeric;	 maximum langth of input
-//		  minValue		  	- value: numeric;	 minimum numeric value of a field
-//		  maxValue		  	- value: numeric;	 maximum numeric value of a field		
-//		  checkboxMin		- value: numeric;	 minimum number of checkboxes that can be selected
-//		  checkboxMax		- value: numeric;	 maximum number of checkboxes that can be selected - "true" = all
-//		  fileType		  	- value: string;	 file types allowed for file inputs, this is a list of extensions seperated by a comma
-//		  isNumber		  	- value: boolean;	 only numbers allowed as an input value
-//		  lettersOnly		- value: boolean;	 only letters allowed as an input value
-//		  passConfirm		- value: boolean;	 the field that it is checking the value against
-//		  validURL		  	- value: boolean;	 validates a url input - set to "true". default is false
-//		  validEmail	  	- value: boolean;	 checks that the value is a valid emial address
-//		  date			  	- value: boolean;	 checks that the value is in a valid date format, supporting some of datepickers format types.
-//		  dateFuture	  	- value: boolean;	 checks that the value is a date in the future
-//		  datePast		  	- value: boolean;	 checks that the date is in the past
-//		  checkHtmlTags	  	- value: string;	 list of tags seperated by commas. eg. "<div>,<p>,<span>" - if empty, checks for all tags. Checks for HTML tags in the input data
-//		  selectNull	  	- value: string;	 default value of the select box - used to check against. Data object only, will return error if this is the value
-//		  selectHasValue  	- value: boolean;	 checks whether the default value of the select box is not selected - will test against a true value
-//		  radioReq		  	- value: boolean;	 true: a radio btn has to be selected. This will only validate on form submit
-//		  noSpaces		  	- value: boolean;	 true: no spaces are allowed in the input
-//		  custom			- value: boolean;  true: checks the custom validation function
-//		  onChangeValidation - value: boolean; true: option to validate on input change, if false then validation occurs on the blur event
+//		  min			  		- value: numeric;	 minimum length of input
+//		  max			  		- value: numeric;	 maximum langth of input
+//		  minValue		  		- value: numeric;	 minimum numeric value of a field
+//		  maxValue		  		- value: numeric;	 maximum numeric value of a field		
+//		  checkboxMin			- value: numeric;	 minimum number of checkboxes that can be selected
+//		  checkboxMax			- value: numeric;	 maximum number of checkboxes that can be selected - "true" = all
+//		  fileType		  		- value: string;	 file types allowed for file inputs, this is a list of extensions seperated by a comma
+//		  isNumber		  		- value: boolean;	 only numbers allowed as an input value
+//		  lettersOnly			- value: boolean;	 only letters allowed as an input value
+//		  passConfirm			- value: boolean;	 the field that it is checking the value against
+//		  validURL		  		- value: boolean;	 validates a url input - set to "true". default is false
+//		  validEmail	  		- value: boolean;	 checks that the value is a valid emial address
+//		  date			  		- value: boolean;	 checks that the value is in a valid date format, supporting some of datepickers format types.
+//		  dateFuture	  		- value: boolean;	 checks that the value is a date in the future
+//		  datePast		  		- value: boolean;	 checks that the date is in the past
+//		  checkHtmlTags	  		- value: string;	 list of tags seperated by commas. eg. "<div>,<p>,<span>" - if empty, checks for all tags. Checks for HTML tags in the input data
+//		  selectNull	  		- value: string;	 default value of the select box - used to check against. Data object only, will return error if this is the value
+//		  selectHasValue  		- value: boolean;	 checks whether the default value of the select box is not selected - will test against a true value
+//		  radioReq		  		- value: boolean;	 true: a radio btn has to be selected. This will only validate on form submit
+//		  noSpaces		  		- value: boolean;	 true: no spaces are allowed in the input
+//		  custom				- value: boolean;  true: checks the custom validation function
+//		  onChangeValidation	- value: boolean; true: option to validate on input change, if false then validation occurs on the blur event
 //		  Date format type allowed:
 //		  numeric values: D,M,Y
 //		  seperators: , / - &nbps;

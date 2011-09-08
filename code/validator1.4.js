@@ -1,5 +1,5 @@
 /*
-	jQuery Form Validator Plugin v1.3
+	jQuery Form Validator Plugin v1.4
 	Copyright (c) 2011 Daniel Thomson
 	
 	Licensed under the MIT license:
