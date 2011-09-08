@@ -35,19 +35,22 @@
     					       textField2:{
     					           inputName: 'lastName',
     					           rules: {min: 2,max: 20,lettersOnly: true,noSpaces: true},
-    					           message: 'please enter a number less than 10 digits long'},
+    					           error: 'please enter a number less than 10 digits long',
+    					           valid: 'hooray! I\'m a custom valid message!'},
    					            dateField:{
    					                inputName: 'dateField',
    					                rules: {date: true,dateFuture:true}},
                                 selectField2: {
                                     inputName: 'selectField2',
                                     rules: {selectHasValue: true,selectNull: ''},
-                                    message: 'Please select a value for this field'},
+                                    error: 'Please select a value for this field'},                                
                                 number: {
                                     inputName: 'number',
-                                    rules: {isNumber:true,max:10},
-                                    message:false
-                                }}
+                                    rules: {isNumber:true,max:10,minValue:5,maxValue:150},
+                                    error: false,
+                                    valid: 'hmmmm, well done! And another custom valid message'
+                                }},
+                         onChangeValidation : true
 					});
     		});
     </script>
@@ -63,7 +66,7 @@
                      <p><span class="error">*</span> required field</p>
                      <div>
                      	  <label for="URL">Please enter your first name:</label>
-                     	  <input type="text" name="firstName" class="required text" size="20" />
+                     	  <input type="text" name="firstName" class="optional text" size="20" />
                      	  <span class="error" title="firstName">*</span>
                      </div>
                      <div>
@@ -75,7 +78,7 @@
                      	  <label for="number">Please enter a number less than 10 digits long:</label>
                      	  <input type="text" name="number" class="required text" size="20" />
                      	  <span class="error" title="number">*</span>
-                     </div>
+                     </div>                                         
                      <div>
                      	  <label for="normaltext">Please enter a valid URL:</label>
                      	  <input type="text" name="url" class="required text" size="20" />
@@ -164,7 +167,7 @@
                      <div>
                           <label>Checkbox 5</label>
                           <input type="checkbox" name="checkboxField" class="required" value="check5" />
-                     </div>
+                     </div>                    
                      <div>
                      	  <input type="submit" value="submit" class="submit" />
                      	  <input type="reset" value="reset" class="reset" />

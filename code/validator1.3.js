@@ -291,7 +291,10 @@
 
          // add new rulesets to this switch function
          // check whether the rule is defined. If so, then do the validation routine on it.
-         fieldValue = $.fn.validator.stripWhiteSpace(fieldValue);  
+         if (fieldValue)
+         {
+         	fieldValue = $.fn.validator.stripWhiteSpace(fieldValue);  
+         }
 
          for (i in fieldRules)
          {
