@@ -316,7 +316,7 @@
 					if (fieldValue.length < fieldRules[i])
 					{
 						hasError = true;
-						errorMessage = "The input is less than the minimum allowed";
+						errorMessage = "Must be at least " + fieldRules[i] + " characters";
 					}
 					break;
 				case "max":
@@ -324,7 +324,7 @@
 					if (fieldValue.length > fieldRules[i])
 					{
 						hasError = true;
-						errorMessage = "The input is longer than the maximum allowed";
+						errorMessage = "Must be less than " + fieldRules[i] + " characters";
 					}
 					break;
 				case "minValue":
