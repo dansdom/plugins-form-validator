@@ -17,6 +17,7 @@
 //				- added option to validate on key change or only on field blur
 //				- added field valid message class
 //				- added optional field class that will validate
+// version 1.4a	- changed error structure for honeycomb, this is a branch and won't make it back to my github code
 //
 // Notes:
 // checkboxes and radio button groups will share the same name attribute to identify the group
@@ -71,7 +72,7 @@
 {
 
 	$.fn.validator = function (config)
-	{
+	{		
 		// config - default settings
 		$.fn.validator.defaults = {
 			inputTypes: {
@@ -245,12 +246,15 @@
 				}
 			});
 
-			theForm.find("." + opts.formClasses.resetClass).click(function ()
+			theForm.find("input[type='reset']").click(function ()
 			{
 				// remove error class from the form, and maybe reset all values?
 				// not sure I need to remove the last two classes here
-				theForm.find("." + opts.formClasses.errorClass).removeClass(opts.formClasses.validClass).removeClass(opts.formClasses.fieldActiveValid).removeClass(opts.formClasses.fieldActiveInvalid);
-				theForm.find("." + opts.formClasses.errorClass).html("&#42;");
+				theForm.find("li ." + opts.formClasses.errorClass).html("");
+				theForm.find("li." + opts.formClasses.errorClass).removeClass(opts.formClasses.errorClass);
+				theForm.find("." + opts.formClasses.validClass).removeClass(opts.formClasses.validClass)
+				theForm.find("." + opts.formClasses.fieldActiveValid).removeClass(opts.formClasses.fieldActiveValid)
+				theForm.find("." + opts.formClasses.fieldActiveInvalid).removeClass(opts.formClasses.fieldActiveInvalid);								
 			});
 
 		});					 
@@ -316,7 +320,7 @@
 					if (fieldValue.length < fieldRules[i])
 					{
 						hasError = true;
-						errorMessage = "Must be at least " + fieldRules[i] + " characters";
+						errorMessage = "The input is less than the minimum allowed";
 					}
 					break;
 				case "max":
@@ -324,7 +328,7 @@
 					if (fieldValue.length > fieldRules[i])
 					{
 						hasError = true;
-						errorMessage = "Must be less than " + fieldRules[i] + " characters";
+						errorMessage = "The input is longer than the maximum allowed";
 					}
 					break;
 				case "minValue":
@@ -520,6 +524,7 @@
 					}
 					$("." + opts.formClasses.errorClass + "[title='" + fieldName + "']").html(message);					
 					field.removeClass("fieldActiveValid").addClass("fieldActiveInvalid");
+					field.closest("li").removeClass(opts.formClasses.validClass).addClass(opts.formClasses.errorClass);
 					opts.errorCount++;
 				}
 				else
@@ -534,7 +539,8 @@
 						var message = fieldValidMessage;
 					}
 					$("." + opts.formClasses.errorClass + "[title='" + fieldName + "']").html('<span class="' + opts.formClasses.validClass + '">' + message + '</span>');
-					field.removeClass("fieldActiveInvalid").addClass("fieldActiveValid");					
+					field.removeClass("fieldActiveInvalid").addClass("fieldActiveValid");	
+					field.closest("li").removeClass(opts.formClasses.errorClass).addClass(opts.formClasses.validClass);				
 				}
 			}
 		}

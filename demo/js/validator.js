@@ -518,7 +518,7 @@
 					{	
 						var message = fieldErrorMessage;																	
 					}
-					$("." + opts.formClasses.errorClass + "[title=" + fieldName + "]").html(message);					
+					$("." + opts.formClasses.errorClass + "[title='" + fieldName + "']").html(message);					
 					field.removeClass("fieldActiveValid").addClass("fieldActiveInvalid");
 					opts.errorCount++;
 				}
@@ -533,7 +533,7 @@
 					{
 						var message = fieldValidMessage;
 					}
-					$("." + opts.formClasses.errorClass + "[title=" + fieldName + "]").html('<span class="' + opts.formClasses.validClass + '">' + message + '</span>');
+					$("." + opts.formClasses.errorClass + "[title='" + fieldName + "']").html('<span class="' + opts.formClasses.validClass + '">' + message + '</span>');
 					field.removeClass("fieldActiveInvalid").addClass("fieldActiveValid");					
 				}
 			}
