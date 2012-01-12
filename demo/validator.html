@@ -27,7 +27,7 @@
     });
     </script>
     -->
-    <script type="text/javascript" language="javascript" src="js/validator.js"></script>
+    <script type="text/javascript" language="javascript" src="js/validator2.0.js"></script>
     <script type="text/javascript" language="javascript">
     		$(document).ready(function(){
     				$(".myForm").validator({
@@ -43,7 +43,18 @@
                                 selectField2: {
                                     inputName: 'selectField2',
                                     rules: {selectHasValue: true,selectNull: ''},
-                                    error: 'Please select a value for this field'},                                
+                                    error: 'Please select a value for this field'},
+								emailField: {
+									inputName: 'email',
+									rules: {validEmail:true},
+									error: 'email not valid dude!'},
+								passwordField: {
+									inputName: 'password',
+									rules: {min:6,max:10}},
+								confirmPass: {
+									inputName: 'confirmpassword',
+									rules: {passConfirm:true}
+								},
                                 number: {
                                     inputName: 'number',
                                     rules: {isNumber:true,max:10,minValue:5,maxValue:150},
@@ -80,23 +91,23 @@
                      	  <span class="error" title="number">*</span>
                      </div>                                         
                      <div>
-                     	  <label for="normaltext">Please enter a valid URL:</label>
+                     	  <label for="url">Please enter a valid URL:</label>
                      	  <input type="text" name="url" class="required text" size="20" />
                      	  <span class="error" title="url">*</span>
                      </div>
                      <div>
-                     	  <label for="normaltext">Please enter a valid email address:</label>
+                     	  <label for="email">Please enter a valid email address:</label>
                      	  <input type="text" name="email" class="required text" size="20" />
                      	  <span class="error" title="email">*</span>
                      </div>
                      <div>
                      	  <label for="password">Please enter a password between 6 and 10 characters long:</label>
-                     	  <input type="password" name="password" class="required text" title="password1" size="20" />
+                     	  <input type="password" name="password" class="required text" title="password" size="20" />
                      	  <span class="error" title="password">*</span>
                      </div>
                      <div>
                      	  <label for="confirmpassword">Please confirm your password:</label>
-                     	  <input type="password" name="confirmpassword" class="required text" title="password1" size="20" />
+                     	  <input type="password" name="confirmpassword" class="required text" title="password" size="20" />
                      	  <span class="error" title="confirmpassword">*</span>
                      </div>
                      <div>
