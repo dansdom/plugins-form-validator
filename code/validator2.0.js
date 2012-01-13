@@ -202,12 +202,12 @@
 			this.theFormValidationFields.each(function ()
 			{
 
-				$(this).focus(function ()
+				$(this).bind('focus.' + validator.namespace, function ()
 				{
 					$(this).addClass(validator.opts.formClasses.fieldActive);
 				});
 
-				$(this).blur(function ()
+				$(this).bind('blur.' + validator.namespace, function ()
 				{
 					$(this).removeClass(validator.opts.formClasses.fieldActive);
 					$(this).removeClass(validator.opts.formClasses.fieldActiveValid);
@@ -219,13 +219,13 @@
 					}
 				});
 
-				$(this).change(function ()
+				$(this).bind('change.' + validator.namespace, function ()
 				{
 					// if this is a required field then validate it											
 					validator.validateField($(this));
 				});
 
-				$(this).keyup(function ()
+				$(this).bind('keyup.' + validator.namespace, function ()
 				{
 					// if this field has a value and the option to validate 'on the fly' is true then validate it
 					if ($(this).attr("value") !== "" && validator.opts.onChangeValidation == true)
@@ -238,7 +238,7 @@
 				// event handler to those elements so that IE will play nice - dang!
 				if (($(this).attr("type") == "checkbox" || $(this).attr("type") == "radio"))
 				{
-					$(this).click(function ()
+					$(this).bind('click.' + validator.namespace, function ()
 					{
 						validator.validateField($(this));
 					});
@@ -246,7 +246,7 @@
 			});
 
 			// do validation when the form has been submitted
-			this.el.submit(function ()
+			this.el.bind('submit.' + this.namespace, function ()
 			{
 
 				validator.opts.errorCount = 0;
@@ -272,7 +272,7 @@
 				}
 			});
 
-			this.el.find("." + this.opts.formClasses.resetClass).click(function ()
+			this.el.find("." + this.opts.formClasses.resetClass).bind('click.' + this.namespace, function ()
 			{
 				// remove error class from the form, and maybe reset all values?
 				// not sure I need to remove the last two classes here
@@ -452,6 +452,8 @@
 						break;
 					case "validEmail":
 						// check whether the value is a valid email
+						//console.log("rules: "+fieldRules[i]+", field value: "+fieldValue);
+						//break;
 						if (fieldRules[i] && !this.isValidEmail(fieldValue))
 						{
 							hasError = true;
