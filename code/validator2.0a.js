@@ -90,6 +90,12 @@
 		this.theFormValidationFields = this.el.find("." + this.opts.formClasses.requiredClass + ", ." + this.opts.formClasses.optionalClass);
 			
 		this.init();
+		
+		// run the callback function if it is defined
+		if (typeof callback === "function")
+		{
+			callback.call();
+		}
 	};
 	
 	// these are the plugin default settings that will be over-written by user settings
