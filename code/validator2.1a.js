@@ -1,6 +1,7 @@
 /*
 	jQuery Form Validator Plugin v2.0
 	Copyright (c) 2011 Daniel Thomson
+	https://github.com/dansdom/plugins-form-validator
 	
 	Licensed under the MIT license:
 	http://www.opensource.org/licenses/mit-license.php
@@ -18,6 +19,7 @@
 //				- added field valid message class
 //				- added optional field class that will validate
 // version 2.0	- reconfigured the plugin to use mine new architecture: https://github.com/dansdom/plugins-template-v2
+// version 2.1	- added a callback function after form submit to allow AJAX functions to run
 //
 // Notes:
 // checkboxes and radio button groups will share the same name attribute to identify the group
@@ -180,7 +182,8 @@
 		longDays: ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"],
 		shortDays: ["mon", "tue", "wed", "thu", "fri", "sat", "sun"],
 		errorCount: 0,
-		onChangeValidation: true
+		onChangeValidation: true,
+		submitFunction : false
 	};
 	
 	// plugin functions go here
@@ -199,12 +202,12 @@
 			this.theFormValidationFields.each(function ()
 			{
 
-				$(this).bind('focus.' + validator.namespace, function ()
+				$(this).focus(function ()
 				{
 					$(this).addClass(validator.opts.formClasses.fieldActive);
 				});
 
-				$(this).bind('blur.' + validator.namespace, function ()
+				$(this).blur(function ()
 				{
 					$(this).removeClass(validator.opts.formClasses.fieldActive);
 					$(this).removeClass(validator.opts.formClasses.fieldActiveValid);
@@ -216,13 +219,13 @@
 					}
 				});
 
-				$(this).bind('change.' + validator.namespace, function ()
+				$(this).change(function ()
 				{
 					// if this is a required field then validate it											
 					validator.validateField($(this));
 				});
 
-				$(this).bind('keyup.' + validator.namespace, function ()
+				$(this).keyup(function ()
 				{
 					// if this field has a value and the option to validate 'on the fly' is true then validate it
 					if ($(this).attr("value") !== "" && validator.opts.onChangeValidation == true)
@@ -235,7 +238,7 @@
 				// event handler to those elements so that IE will play nice - dang!
 				if (($(this).attr("type") == "checkbox" || $(this).attr("type") == "radio"))
 				{
-					$(this).bind('click.' + validator.namespace, function ()
+					$(this).click(function ()
 					{
 						validator.validateField($(this));
 					});
@@ -243,11 +246,10 @@
 			});
 
 			// do validation when the form has been submitted
-			this.el.bind('submit.' + this.namespace, function ()
+			this.el.submit(function ()
 			{
-
+				
 				validator.opts.errorCount = 0;
-
 				validator.theFormRequired.each(function ()
 				{
 					//validate each of the required fields and then send off to the back end :)		
@@ -258,8 +260,14 @@
 				// check the error count									  
 				if (validator.opts.errorCount === 0)
 				{
-					// if no errors then return the page true
-					return true;
+					// if no errors then return the page then call the submit function and return true
+					if (typeof validator.opts.submitFunction === "function") {
+						validator.opts.submitFunction.call();
+						return false;
+					}
+					else {
+						return true;	
+					}
 				}
 				else
 				{
@@ -269,7 +277,7 @@
 				}
 			});
 
-			this.el.find("." + this.opts.formClasses.resetClass).bind('click.' + this.namespace, function ()
+			this.el.find("." + this.opts.formClasses.resetClass).click(function ()
 			{
 				// remove error class from the form, and maybe reset all values?
 				// not sure I need to remove the last two classes here
@@ -449,8 +457,6 @@
 						break;
 					case "validEmail":
 						// check whether the value is a valid email
-						//console.log("rules: "+fieldRules[i]+", field value: "+fieldValue);
-						//break;
 						if (fieldRules[i] && !this.isValidEmail(fieldValue))
 						{
 							hasError = true;
@@ -539,6 +545,7 @@
 						}
 						$("." + this.opts.formClasses.errorClass + "[title='" + fieldName + "']").html(message);					
 						field.removeClass("fieldActiveValid").addClass("fieldActiveInvalid");
+						field.closest("li").removeClass(this.opts.formClasses.validClass).addClass(this.opts.formClasses.errorClass);
 						this.opts.errorCount++;
 					}
 					else
@@ -553,7 +560,8 @@
 							message = fieldValidMessage;
 						}
 						$("." + this.opts.formClasses.errorClass + "[title='" + fieldName + "']").html('<span class="' + this.opts.formClasses.validClass + '">' + message + '</span>');
-						field.removeClass("fieldActiveInvalid").addClass("fieldActiveValid");					
+						field.removeClass("fieldActiveInvalid").addClass("fieldActiveValid");
+						field.closest("li").removeClass(this.opts.formClasses.errorClass).addClass(this.opts.formClasses.validClass);	
 					}
 				}
 			}
