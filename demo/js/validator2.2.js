@@ -1,5 +1,5 @@
 /*
-	jQuery Form Validator Plugin v2.0
+	jQuery Form Validator Plugin v2.2
 	Copyright (c) 2011 Daniel Thomson
 	https://github.com/dansdom/plugins-form-validator
 	
@@ -196,46 +196,13 @@
 			this.destroy();
 				
 			// start event handling for each of the required fields in the form
-			this.theFormValidationFields.each(function () {
-
-				$(this).on('focus.' + validator.namespace, function () {
-					$(this).addClass(validator.opts.formClasses.fieldActive);
-				});
-
-				$(this).on('blur.' + validator.namespace, function () {
-					$(this).removeClass(validator.opts.formClasses.fieldActive);
-					$(this).removeClass(validator.opts.formClasses.fieldActiveValid);
-					$(this).removeClass(validator.opts.formClasses.fieldActiveInvalid);
-					// if this field has a value then validate it
-					if ($(this).prop("value") !== "") {
-						validator.validateField($(this));
-					}
-				});
-
-				$(this).on('change.' + validator.namespace, function () {
-					// if this is a required field then validate it											
-					validator.validateField($(this));
-				});
-
-				$(this).on('keyup.' + validator.namespace, function () {
-					// if this field has a value and the option to validate 'on the fly' is true then validate it
-					if ($(this).prop("value") !== "" && validator.opts.onChangeValidation == true) {
-						validator.validateField($(this));
-					}
-				});
-
-				// basically the event 'change' doesn't work on select and radio boxes in IE6 - so I have to add a 'click'
-				// event handler to those elements so that IE will play nice - dang!
-				if (($(this).attr("type") == "checkbox" || $(this).attr("type") == "radio")) {
-					$(this).on('click.' + validator.namespace, function () {
-						validator.validateField($(this));
-					});
-				}
-			});
+			this.getValidationFields();
 
 			// do validation when the form has been submitted
 			this.el.on('submit.' + validator.namespace, function () {
-				validator.validateForm();
+				var isValid = validator.validateForm();
+				// if false the for will not submit
+				return isValid;
 			});
 
 			this.el.find("." + this.opts.formClasses.resetClass).on('click.' + validator.namespace, function () {
@@ -245,6 +212,53 @@
 				this.form.find("." + this.opts.formClasses.errorClass).html("&#42;");
 			});	
 		},
+		getValidationFields : function() {
+            var validator = this;
+
+            // define the required, optional and validations fields
+            this.theFormRequired = this.el.find("." + this.opts.formClasses.requiredClass);
+            this.theFormOptional = this.el.find("." + this.opts.formClasses.optionalClass);
+            this.theFormValidationFields = this.el.find("." + this.opts.formClasses.requiredClass + ", ." + this.opts.formClasses.optionalClass);
+
+            // start event handling for each of the required fields in the form
+            this.theFormValidationFields.each(function () {
+            	var $this = $(this);
+
+                $this.on('focus.' + validator.namespace, function () {
+                    $this.addClass(validator.opts.formClasses.fieldActive);
+                });
+
+                $this.on('blur.' + validator.namespace,function () {
+                    $this.removeClass(validator.opts.formClasses.fieldActive);
+                    $this.removeClass(validator.opts.formClasses.fieldActiveValid);
+                    $this.removeClass(validator.opts.formClasses.fieldActiveInvalid);
+                    // if this field has a value then validate it
+                    if ($this.prop("value") !== "") {
+                        validator.validateField($(this));
+                    }
+                });
+
+                $this.on('change.' + validator.namespace, function () {
+                    // if this is a required field then validate it                                         
+                    validator.validateField($this);
+                });
+
+                $this.on('keyup.' + validator.namespace, function () {
+                    // if this field has a value and the option to validate 'on the fly' is true then validate it
+                    if ($this.prop("value") !== "" && validator.opts.onChangeValidation == true) {
+                        validator.validateField($this);
+                    }
+                });
+
+                // basically the event 'change' doesn't work on select and radio boxes in IE6 - so I have to add a 'click'
+                // event handler to those elements so that IE will play nice - dang!
+                if (($this.attr("type") == "checkbox" || $this.attr("type") == "radio")) {
+                    $this.on('click.' + validator.namespace ,function () {
+                        validator.validateField($this);
+                    });
+                }
+            });
+        },
 		validateForm : function() {
 			var validator = this;
 
@@ -255,7 +269,7 @@
 				//console.log("validating field: "+theFormRequired.attr("id"));							 
 				validator.validateField($(this));
 			});
-
+			
 			// check the error count									  
 			if (validator.opts.errorCount === 0) {
 				// if no errors then return the page then call the submit function and return true
@@ -798,7 +812,6 @@
 		},
 		destroy : function() {
 			var validator = this;
-			console.log(validator);
 			validator.el.off("." + validator.namespace);
 		}
 	};
