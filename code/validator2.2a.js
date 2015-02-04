@@ -283,6 +283,9 @@
 			} else {
 				//alert("you still have errors in the form");
 				validator.el.find("." + validator.opts.formClasses.fieldActiveValid).removeClass(validator.opts.formClasses.fieldActiveValid);
+				if (typeof validator.opts.errorFunction === "function") {
+					validator.opts.errorFunction.call();
+				}
 				return false;
 			}
 		},
@@ -363,7 +366,12 @@
 					case "checkboxMax":
 						// check how many checkboxes checked
 						checkedInField = $("input[name=" + fieldName + "]:checked");
-						if (checkedInField.length > fieldRules[i]) {
+						if (fieldRules[i] === true) {
+							if (checkedInField.length !== $("input[name=" + fieldName + "]").length) {
+								hasError = true;
+								errorMessage = "All these checkboxes need to be set";
+							}
+						} else if (checkedInField.length > fieldRules[i]) {
 							hasError = true;
 							errorMessage = "More than the maximum allowable have been selected";
 						}

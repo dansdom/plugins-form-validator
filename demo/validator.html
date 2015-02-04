@@ -55,6 +55,13 @@
 									inputName: 'confirmpassword',
 									rules: {passConfirm:true}
 								},
+                                checkboxField: {
+                                    inputName: 'checkboxField',
+                                    rules: {
+                                        checkboxMin: 1,
+                                        checkboxMax: true
+                                    }
+                                },
                                 number: {
                                     inputName: 'number',
                                     rules: {isNumber:true,max:3,minValue:2,maxValue:150},
